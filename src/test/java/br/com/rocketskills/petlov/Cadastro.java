@@ -9,40 +9,55 @@ import org.openqa.selenium.By;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Condition.*;
 
+class PontoDoacao{
+	String nome;
+	String email;
+	String cep;
+	String rua;
+	Integer numero;
+	String complemento;
+	String pets;
+
+	public PontoDoacao(String nome, String email, String cep, String rua, Integer numero, String complemento, String pets) {
+		this.nome = nome;
+		this.email = email;
+		this.cep = cep;
+		this.rua = rua;
+		this.numero = numero;
+		this.complemento = complemento;
+		this.pets = pets;
+	}
+}
 
 class Cadastro {
 
-/* 	WebDriver driver;
-
-	@BeforeEach
-	void start() {
-		driver = new ChromeDriver();
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-	}
-
-	@AfterEach
-	void finish() {
-		driver.close();
-	} */
-
+	// Pre-condicao
+	PontoDoacao pontoDoacao = new PontoDoacao(
+			"Nome do ponto de doação",
+			"email@email.com",
+			"04534011",
+			"Rua",
+			199,
+			"Apto 101",
+			"Cachorros"
+	);
 	@Test
 	@DisplayName("Deve poder cadastrar um ponto de doação")
 	void createDonationPoint() {
-
-
+		// Ação
 		open("https://petlov.vercel.app/signup");
 		$("h1").shouldHave(text("Cadastro de ponto de doação"));
 
-		$("input[placeholder='Nome do ponto de doação']").setValue("Nome do ponto de doação");
-		$("input[name='email']").setValue("email@email.com");
-		$("input[name='cep']").setValue("04534011");
+		$("input[placeholder='Nome do ponto de doação']").setValue(pontoDoacao.nome);
+		$("input[name='email']").setValue(pontoDoacao.email);
+		$("input[name='cep']").setValue(pontoDoacao.cep);
 		$("input[value='Buscar CEP']").click();
-		$("input[name='addressNumber']").setValue("199");
-		$("input[name='addressDetails']").setValue("Apto 101");
-		$(By.xpath("//span[normalize-space()='Cachorros']")).click();
+		$("input[name='addressNumber']").setValue(pontoDoacao.numero.toString());
+		$("input[name='addressDetails']").setValue(pontoDoacao.complemento);
+		$(By.xpath("//span[normalize-space()='" + pontoDoacao.pets + "']")).click();
 		$(".button-register").click();
 
-		// validacao do sucesso
+		// Resultado esperado
 		$("#success-page h1").shouldHave(text("Você fez a diferença"));
 
 	}
