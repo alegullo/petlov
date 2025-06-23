@@ -41,8 +41,11 @@ class Cadastro {
 		$(By.xpath("//span[normalize-space()='" + pontoDoacao.pets + "']")).click();
 		$(".button-register").click();
 	}
-	// Pre-condicao
 
+	private void acessaSite() {
+		open("https://petlov.vercel.app/signup");
+		$("h1").shouldHave(text("Cadastro de ponto de doação"));
+	}
 	@Test
 	@DisplayName("Deve poder cadastrar um ponto de doação")
 	void createDonationPoint() {
@@ -57,9 +60,7 @@ class Cadastro {
 		"Apto 101",
 		"Cachorros"
 	);
-		
-		open("https://petlov.vercel.app/signup");
-		$("h1").shouldHave(text("Cadastro de ponto de doação"));
+		acessaSite();
 
 		// Ação
 		submeterFormulario(pontoDoacao);
@@ -84,9 +85,8 @@ class Cadastro {
 		"Cachorros"
 	);
 		
-		open("https://petlov.vercel.app/signup");
-		$("h1").shouldHave(text("Cadastro de ponto de doação"));
-
+		acessaSite();
+		
 		// Ação
 		submeterFormulario(pontoDoacao);
 
