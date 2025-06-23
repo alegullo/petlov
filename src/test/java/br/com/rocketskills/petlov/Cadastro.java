@@ -42,19 +42,22 @@ class Cadastro {
 		$(".button-register").click();
 	}
 	// Pre-condicao
-	PontoDoacao pontoDoacao = new PontoDoacao(
-			"Nome do ponto de doação",
-			"email@email.com",
-			"04534011",
-			"Rua",
-			199,
-			"Apto 101",
-			"Cachorros"
-	);
+
 	@Test
 	@DisplayName("Deve poder cadastrar um ponto de doação")
 	void createDonationPoint() {
-		// Pre condicao
+
+	// Pre condicao
+	PontoDoacao pontoDoacao = new PontoDoacao(
+		"Nome do ponto de doação",
+		"email@email.com",
+		"04534011",
+		"Rua",
+		199,
+		"Apto 101",
+		"Cachorros"
+	);
+		
 		open("https://petlov.vercel.app/signup");
 		$("h1").shouldHave(text("Cadastro de ponto de doação"));
 
@@ -64,5 +67,30 @@ class Cadastro {
 		// Resultado esperado
 		$("#success-page h1").shouldHave(text("Você fez a diferença"));
 
+	}
+
+		@Test
+	@DisplayName("Não pode cadastrar com email Invalido")
+	void emailIncorreto() {
+
+	// Pre condicao
+	PontoDoacao pontoDoacao = new PontoDoacao(
+		"nome 1",
+		"emailincorreto.com",
+		"04534011",
+		"Rua",
+		199,
+		"Apto 101",
+		"Cachorros"
+	);
+		
+		open("https://petlov.vercel.app/signup");
+		$("h1").shouldHave(text("Cadastro de ponto de doação"));
+
+		// Ação
+		submeterFormulario(pontoDoacao);
+
+		// Resultado esperado
+		$(".alert-error").shouldHave(text("Informe um email válido"));
 	}
 }
